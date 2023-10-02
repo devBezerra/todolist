@@ -10,7 +10,7 @@ const model = {
   orderList: function () {
     this.todos.sort((a, b) => {
       function editValue(value) {
-        return value.toLowerCase();
+        return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
       }
 
       if (editValue(a.value) < editValue(b.value)) {
