@@ -7,7 +7,7 @@ const model = {
     this.orderList();
   },
 
-  orderList: function() {
+  orderList: function () {
     this.todos.sort((a, b) => {
       function editValue(value) {
         return value.toLowerCase();
@@ -20,7 +20,7 @@ const model = {
       } else {
         return 0;
       }
-    })
+    });
   },
 
   finishTodo: function (todo) {
@@ -82,45 +82,51 @@ const view = {
     const todoText = document.createElement("span");
     todoText.textContent = todo.value;
 
-    const buttonCheck = document.createElement("button");
-    const checkImage = document.createElement("img");
-    checkImage.src = "./assets/check.png";
-    checkImage.alt = "Check Image";
-    buttonCheck.appendChild(checkImage);
-    buttonCheck.className = "action-button check-button";
+    const buttonCheck = this.createButton(
+      "./assets/check.png",
+      "Check Image",
+      "action-button check-button"
+    );
     buttonCheck.addEventListener("click", () => {
       controller.checkTodo(todo);
     });
 
-    const buttonEdit = document.createElement("button");
-    const editImage = document.createElement("img");
-    editImage.src = "./assets/edit.png";
-    editImage.alt = "Edit Image";
-    buttonEdit.appendChild(editImage);
-    buttonEdit.className = "action-button edit-button";
+    const buttonEdit = this.createButton(
+      "./assets/edit.png",
+      "Edit Image",
+      "action-button edit-button"
+    );
     buttonEdit.addEventListener("click", () => {
       controller.editTodo(todo);
     });
 
-    const buttonDelete = document.createElement("button");
-    const deleteImage = document.createElement("img");
-    deleteImage.src = "./assets/delete.png";
-    deleteImage.alt = "Delete Image";
-    buttonDelete.appendChild(deleteImage);
-    buttonDelete.className = "action-button delete-button";
+    const buttonDelete = this.createButton(
+      "./assets/delete.png",
+      "Delete Image",
+      "action-button delete-button"
+    );
     buttonDelete.addEventListener("click", () => {
       controller.deleteTodo(todo.id);
     });
 
-    todoItem.appendChild(todoText);
-    todoItem.appendChild(buttonCheck);
-    todoItem.appendChild(buttonEdit);
-    todoItem.appendChild(buttonDelete);
+    todoItem.append(todoText, buttonCheck, buttonEdit, buttonDelete);
+    
     this.todoList.appendChild(todoItem);
 
     if (todo.finish === true) {
       this.checkTodo(todo.id);
     }
+  },
+
+  createButton: function (imgSrc, imgAlt, className) {
+    const button = document.createElement("button");
+    const image = document.createElement("img");
+    image.src = imgSrc;
+    image.alt = imgAlt;
+    button.appendChild(image);
+    button.className = className;
+
+    return button;
   },
 
   renderAllTodos: function () {
